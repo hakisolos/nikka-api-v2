@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIKKA-API</title>
+    <!-- Adding Poppins font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-left">
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+            <div class="logo">NIKKA-API</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/dash">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/changelog">Changelog</a></li>
+            <li><a href="/ai">AI</a></li>
+            <li><a href="/search">Search</a></li>
+            <li><a href="/download">Download</a></li>
+            <li><a href="/tools">Tools</a></li>
+            <li><a href="/stalker">Stalker</a></li>
+            <li><a href="/anime">Anime</a></li>
+        </ul>
+    </header>
+
+    <div class="sidebar">
+        <button class="close-btn">&times;</button>
+        <ul>
+            <li><a href="/dash"><i class="fas fa-home"></i>Home</a></li>
+            <li><a href="/profile"><i class="fas fa-user"></i>Profile</a></li>
+            <li><a href="#changelog"><i class="fas fa-clipboard-list"></i>Changelog</a></li>
+            <li><a href="/ai"><i class="fas fa-robot"></i>AI</a></li>
+            <li><a href="/search"><i class="fas fa-search"></i>Search</a></li>
+            <li><a href="/download"><i class="fas fa-download"></i>Download</a></li>
+            <li><a href="/tools"><i class="fas fa-tools"></i>Tools</a></li>
+            <li><a href="/stalker"><i class="fas fa-eye"></i>Stalker</a></li>
+            <li><a href="/anime"><i class="fas fa-tv"></i>Anime</a></li>
+        </ul>
+    </div>
+    <div class="overlay"></div>
+    
+    <!-- Add this section after your header in the body of the HTML file -->
+    <section id="dashboard" class="dashboard">
+        <div class="container">
+            <h2 class="section-title">Dashboard</h2>
+            <div class="dashboard-cards">
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Visitors</h3>
+                        <p id="visitor-count">0</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Requests</h3>
+                        <p id="request-count">0</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-battery-half"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Battery</h3>
+                        <p id="battery-percentage">Checking...</p>
+                        <div class="battery-bar">
+                            <div id="battery-level" class="battery-level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>IP Address</h3>
+                        <p id="ip-address">Fetching...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"> </script>
+</body>
+
+</html>
+
