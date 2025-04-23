@@ -982,7 +982,11 @@ body {
         max-height: 85vh;
     }
 }
-
+#message {
+    margin-top: 10px;
+    text-align: center;
+    color: red;
+}
 /* For very small screens */
 @media screen and (max-width: 480px) {
     .col:before {

@@ -198,8 +198,6 @@ document.addEventListener('DOMContentLoaded', function () {
 	populateProfileData();
 });
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
 	// Test button event listeners
 	const testBtns = document.querySelectorAll('.test-btn');
@@ -329,3 +327,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 	}
 });
+
+//==========================// VERIFICATION SCRIPT //=====================================================
+// =============== SIGNUP ==================== //

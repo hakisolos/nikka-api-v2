@@ -234,6 +234,13 @@
             transition: opacity 0.5s ease;
         }
 
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
         @media (max-width: 500px) {
             .form-wrapper {
                 padding: 30px 20px;
@@ -260,17 +267,18 @@
                 <span>APIS</span>
             </div>
             <h2>Welcome Back</h2>
-            <form>
+            <form id="auth-login">
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="Email" required />
+                    <input type="email" placeholder="Email" id="login-email" required />
                 </div>
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Password" required />
+                    <input type="password" placeholder="Password" id="login-password" required />
                 </div>
                 <button type="submit">Login</button>
             </form>
+            <div id="login-message" class="message"></div>
             <div class="toggle-link">
                 Don't have an account? <a onclick="toggleForms()">Sign Up</a>
             </div>
@@ -282,17 +290,18 @@
                 <span>APIS</span>
             </div>
             <h2>Create Account</h2>
-            <form>
+            <form id="auth-signup">
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="Email" required />
+                    <input type="email" placeholder="Email" id="signup-email" required />
                 </div>
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Password" required />
+                    <input type="password" placeholder="Password" id="signup-password" required />
                 </div>
                 <button type="submit">Sign Up</button>
             </form>
+            <div id="signup-message" class="message"></div>
             <div class="toggle-link">
                 Already have an account? <a onclick="toggleForms()">Login</a>
             </div>
@@ -300,20 +309,147 @@
     </div>
 
     <script>
+        // Define your API endpoints here - adjust these as needed
+        const API_URL = {
+            login: '/api/login',    // Change this to your actual login endpoint
+            register: '/api/register'  // Change this to your actual register endpoint
+        };
+
+        // Helper function to check if the response is JSON
+        async function handleResponse(response) {
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return await response.json();
+            } else {
+                // Handle non-JSON response
+                const text = await response.text();
+                throw new Error(`Server returned non-JSON response: ${text.substring(0, 100)}...`);
+            }
+        }
+
+        // Ensure DOM is fully loaded before attaching event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Signup form handling
+            document.getElementById('auth-signup').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const messageElement = document.getElementById('signup-message');
+                messageElement.textContent = 'Processing...';
+                messageElement.style.color = '#ffb347'; // Orange color for processing
+
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const data = {
+                    email,
+                    password,
+                };
+
+                try {
+                    const response = await fetch(API_URL.register, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    // Try to parse JSON response safely
+                    try {
+                        const result = await handleResponse(response);
+
+                        if (response.ok) {
+                            messageElement.textContent = 'SIGNUP SUCCESSFUL!';
+                            messageElement.style.color = 'green';
+                        } else {
+                            messageElement.textContent =
+                                result.error || 'Something went wrong!';
+                            messageElement.style.color = 'red';
+                        }
+                    } catch (parseError) {
+                        console.error('Error parsing response:', parseError);
+                        messageElement.textContent = 'Server error: Invalid response format';
+                        messageElement.style.color = 'red';
+                    }
+                } catch (error) {
+                    console.error('Network error:', error);
+                    messageElement.textContent = `Error: ${error.message}`;
+                    messageElement.style.color = 'red';
+                }
+            });
+
+            // Login form handling
+            document.getElementById('auth-login').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const messageElement = document.getElementById('login-message');
+                messageElement.textContent = 'Processing...';
+                messageElement.style.color = '#ffb347'; // Orange color for processing
+
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const data = {
+                    email,
+                    password,
+                };
+
+                try {
+                    const response = await fetch(API_URL.login, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    // Try to parse JSON response safely
+                    try {
+                        const result = await handleResponse(response);
+
+                        if (response.ok) {
+                            messageElement.textContent = 'Login successful! 🥰';
+                            messageElement.style.color = 'green';
+
+                            // Store token if provided
+                            if (result.token) {
+                                localStorage.setItem('token', result.token);
+                                // Optional: Redirect after successful login
+                                // window.location.href = '/dashboard';
+                            }
+                        } else {
+                            messageElement.textContent =
+                                result.error || 'Something went wrong!';
+                            messageElement.style.color = 'red';
+                        }
+                    } catch (parseError) {
+                        console.error('Error parsing response:', parseError);
+                        messageElement.textContent = 'Server error: Invalid response format';
+                        messageElement.style.color = 'red';
+                    }
+                } catch (error) {
+                    console.error('Network error:', error);
+                    messageElement.textContent = `Error: ${error.message}`;
+                    messageElement.style.color = 'red';
+                }
+            });
+        });
+
+        // Form toggle function
         function toggleForms() {
             const loginForm = document.getElementById('login-form');
             const signupForm = document.getElementById('signup-form');
 
-            loginForm.style.transform = loginForm.style.transform === 'rotateY(180deg)'
-                ? 'rotateY(0deg)'
-                : 'rotateY(180deg)';
+            loginForm.style.transform =
+                loginForm.style.transform === 'rotateY(180deg)'
+                    ? 'rotateY(0deg)'
+                    : 'rotateY(180deg)';
 
-            signupForm.style.transform = signupForm.style.transform === 'rotateY(0deg)'
-                ? 'rotateY(180deg)'
-                : 'rotateY(0deg)';
+            signupForm.style.transform =
+                signupForm.style.transform === 'rotateY(0deg)'
+                    ? 'rotateY(180deg)'
+                    : 'rotateY(0deg)';
         }
 
-        // Add glow effect following cursor
+        // Glow effect following cursor
         document.addEventListener('mousemove', (e) => {
             const glow = document.getElementById('glow');
             glow.style.opacity = '1';

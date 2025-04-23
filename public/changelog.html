@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Changelog Section Styles */
+        .changelog-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: #333;
+        }
+
+        .changelog-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #2d3748;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .changelog-entry {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .changelog-entry:last-child {
+            border-bottom: none;
+        }
+
+        .changelog-date {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #718096;
+            margin-bottom: 0.5rem;
+        }
+
+        .changelog-version {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+
+        .changelog-version span {
+            background-color: #ebf8ff;
+            color: #3182ce;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            margin-left: 0.5rem;
+        }
+
+        .changelog-category {
+            font-weight: 600;
+            color: #4a5568;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .changelog-item {
+            display: flex;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .changelog-item-icon {
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .changelog-item-icon.added {
+            color: #48bb78;
+        }
+
+        .changelog-item-icon.fixed {
+            color: #f6ad55;
+        }
+
+        .changelog-item-icon.improved {
+            color: #4299e1;
+        }
+
+        .changelog-item-icon.removed {
+            color: #e53e3e;
+        }
+
+        .changelog-item p {
+            margin: 0;
+        }
+
+        @media (max-width: 640px) {
+            .changelog-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="changelog-section">
+        <h2>Changelog</h2>
+
+        <!-- Changelog Entry -->
+        <div class="changelog-entry">
+            <div class="changelog-date">April 20, 2025</div>
+            <div class="changelog-version">v2.4.0 <span>Latest</span></div>
+
+            <div class="changelog-category">Added</div>
+            <div class="changelog-item">
+                <div class="changelog-item-icon added">✨</div>
+                <p>New endpoint <code>/api/v2/analytics</code> for detailed usage statistics</p>
+            </div>
+            <div class="changelog-item">
+                <div class="changelog-item-icon added">✨</div>
+                <p>Support for custom header parameters in all endpoints</p>
+            </div>
+
+            <div class="changelog-category">Fixed</div>
+            <div class="changelog-item">
+                <div class="changelog-item-icon fixed">🐛</div>
+                <p>Authentication token expiration issue affecting some users</p>
+            </div>
+
+            <div class="changelog-category">Improved</div>
+            <div class="changelog-item">
+                <div class="changelog-item-icon improved">🚀</div>
+                <p>Response time for <code>/api/v2/search</code> endpoint optimized by 30%</p>
+            </div>
+        </div>
+
+        <!-- Changelog Entry -->
+        <div class="changelog-entry">
+            <div class="changelog-date">March 15, 2025</div>
+            <div class="changelog-version">v2.3.2</div>
+
+            <div class="changelog-category">Fixed</div>
+            <div class="changelog-item">
+                <div class="changelog-item-icon fixed">🐛</div>
+                <p>JSON parsing error when submitting nested objects to <code>/api/v2/data</code></p>
+            </div>
+            <div class="changelog-item">
+                <div class="changelog-item-icon fixed">🐛</div>
+                <p>Rate limiting headers not showing correctly in responses</p>
+            </div>
+
+            <div class="changelog-category">Improved</div>
+            <div class="changelog-item">
+                <div class="changelog-item-icon improved">🚀</div>
+                <p>Documentation for webhook integration with more examples</p>
+            </div>
+        </div>
+
+        <!-- Changelog Entry -->
+        <div class="changelog-entry">
+            <div class="changelog-date">February 28, 2025</div>
+            <div class="changelog-version">v2.3.0</div>
+
+            <div class="changelog-category">Added</div>
+            <div class="changelog-item">
+                <div class="changelog-item-icon added">✨</div>
+                <p>New <code>/api/v2/batch</code> endpoint for processing multiple requests</p>
+            </div>
+
+            <div class="changelog-category">Removed</div>
+            <div class="changelog-item">
+                <div class="changelog-item-icon removed">🗑️</div>
+                <p>Deprecated <code>/api/v1/old-endpoint</code> has been removed</p>
+            </div>
+
+            <div class="changelog-category">Improved</div>
+            <div class="changelog-item">
+                <div class="changelog-item-icon improved">🚀</div>
+                <p>Error messages now provide more detailed information for debugging</p>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
