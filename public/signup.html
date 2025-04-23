@@ -241,6 +241,165 @@
             transition: all 0.3s ease;
         }
 
+        /* Success Popup Styles */
+        .success-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.7);
+            background: linear-gradient(135deg, #20c997, #0d6efd);
+            border-radius: 16px;
+            padding: 30px 40px;
+            width: 320px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            pointer-events: none;
+        }
+
+        .success-popup.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .success-popup i {
+            font-size: 60px;
+            color: white;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: bounceIn 0.6s;
+        }
+
+        .success-popup h3 {
+            color: white;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .success-popup p {
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 20px;
+        }
+
+        .success-popup button {
+            background: white;
+            color: #0d6efd;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .success-popup button:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .popup-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 4s infinite;
+        }
+
+        /* Logout popup styles */
+        .logout-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.7);
+            background: linear-gradient(135deg, #ff7043, #f44336);
+            border-radius: 16px;
+            padding: 30px 40px;
+            width: 320px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            pointer-events: none;
+        }
+
+        .logout-popup.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .logout-popup i {
+            font-size: 60px;
+            color: white;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: bounceIn 0.6s;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
         @media (max-width: 500px) {
             .form-wrapper {
                 padding: 30px 20px;
@@ -308,158 +467,488 @@
         </div>
     </div>
 
+    <!-- Success Popup for Login -->
+    <div class="popup-overlay" id="loginOverlay"></div>
+    <div class="success-popup" id="loginSuccess">
+        <div class="particles" id="loginParticles"></div>
+        <i class="fas fa-check-circle"></i>
+        <h3>Login Successful!</h3>
+        <p id="loginSuccessMessage">Welcome back to NIKKA APIS!</p>
+        <button onclick="closeLoginPopup()">Continue</button>
+    </div>
+
+    <!-- Success Popup for Signup -->
+    <div class="popup-overlay" id="signupOverlay"></div>
+    <div class="success-popup" id="signupSuccess">
+        <div class="particles" id="signupParticles"></div>
+        <i class="fas fa-user-plus"></i>
+        <h3>Welcome to NIKKA!</h3>
+        <p id="signupSuccessMessage">Your account has been created successfully!</p>
+        <button onclick="closeSignupPopup()">Get Started</button>
+    </div>
+
+    <!-- Logout Popup -->
+    <div class="popup-overlay" id="logoutOverlay"></div>
+    <div class="logout-popup" id="logoutSuccess">
+        <div class="particles" id="logoutParticles"></div>
+        <i class="fas fa-sign-out-alt"></i>
+        <h3>Logged Out</h3>
+        <p>You have been successfully logged out.</p>
+        <button onclick="closeLogoutPopup()">Return to Login</button>
+    </div>
+
     <script>
         // Define your API endpoints here - adjust these as needed
         const API_URL = {
-            login: '/api/login',    // Change this to your actual login endpoint
-            register: '/api/register'  // Change this to your actual register endpoint
+    login: '/api/login',    // Change this to your actual login endpoint
+    register: '/api/register',  // Change this to your actual register endpoint
+    logout: '/api/logout'  // Change this to your actual logout endpoint
+};
+
+// User storage
+const userStorage = {
+    saveUser: function (email, password) {
+        // Store in localStorage (for demonstration - use more secure methods in production)
+        localStorage.setItem('nikka_user_email', email);
+        // Note: In a real application, consider encrypting this or using a more secure approach
+        localStorage.setItem('nikka_user_password', password);
+
+        // Also store in memory for immediate use
+        this.currentUser = {
+            email: email,
+            password: password
+        };
+    },
+    getCurrentUser: function () {
+        // Try to get from memory first
+        if (this.currentUser) {
+            return this.currentUser;
+        }
+
+        // If not in memory, try localStorage
+        const email = localStorage.getItem('nikka_user_email');
+        const password = localStorage.getItem('nikka_user_password');
+
+        if (email && password) {
+            this.currentUser = { email, password };
+            return this.currentUser;
+        }
+
+        return null;
+    },
+    clearUser: function () {
+        localStorage.removeItem('nikka_user_email');
+        localStorage.removeItem('nikka_user_password');
+        localStorage.removeItem('token');
+        this.currentUser = null;
+    },
+    // Store in memory
+    currentUser: null
+};
+
+// User email storage - simplified version that only stores email
+const userEmailStore = {
+    saveEmail: function(email) {
+        // Store in localStorage
+        localStorage.setItem('nikka_user_email', email);
+        
+        // Also store in memory for immediate use
+        this.currentEmail = email;
+    },
+    
+    getEmail: function() {
+        // Try to get from memory first
+        if (this.currentEmail) {
+            return this.currentEmail;
+        }
+        
+        // If not in memory, try localStorage
+        const email = localStorage.getItem('nikka_user_email');
+        
+        if (email) {
+            this.currentEmail = email;
+            return email;
+        }
+        
+        return null;
+    },
+    
+    clearEmail: function() {
+        localStorage.removeItem('nikka_user_email');
+        this.currentEmail = null;
+    },
+    
+    // Store in memory
+    currentEmail: null
+};
+
+// Function to update user email display in the UI
+function updateUserEmailDisplay() {
+    const email = userEmailStore.getEmail();
+    const userEmailElement = document.getElementById('user-email');
+    
+    if (userEmailElement && email) {
+        userEmailElement.textContent = email;
+    }
+}
+
+// Function to create particles for the success popups
+function createParticles(containerId, count) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = ''; // Clear any existing particles
+
+    for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+
+        // Random position
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+
+        // Random size
+        const size = Math.random() * 8 + 4;
+
+        // Random color
+        const colors = ['#ffffff', '#f0f0f0', '#e0e0ff', '#d0fff0', '#fff0d0'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        // Set styles
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.background = color;
+        particle.style.opacity = Math.random() * 0.6 + 0.4;
+
+        // Random animation delay
+        particle.style.animationDelay = `${Math.random() * 2}s`;
+
+        container.appendChild(particle);
+    }
+}
+
+// Helper function to check if the response is JSON
+async function handleResponse(response) {
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+        return await response.json();
+    } else {
+        // Handle non-JSON response
+        const text = await response.text();
+        throw new Error(`Server returned non-JSON response: ${text.substring(0, 100)}...`);
+    }
+}
+
+// Function to show login success popup
+function showLoginSuccess(email) {
+    createParticles('loginParticles', 30);
+    document.getElementById('loginSuccessMessage').textContent = `Welcome back, ${email}!`;
+    document.getElementById('loginOverlay').classList.add('show');
+    document.getElementById('loginSuccess').classList.add('show');
+    
+    // Save email in the store
+    userEmailStore.saveEmail(email);
+    // Update UI
+    updateUserEmailDisplay();
+
+    // Redirect after a delay (optional)
+    setTimeout(() => {
+        window.location.href = '/dash';
+    }, 2000);
+}
+
+// Function to close login popup
+function closeLoginPopup() {
+    document.getElementById('loginOverlay').classList.remove('show');
+    document.getElementById('loginSuccess').classList.remove('show');
+    window.location.href = '/dash';
+}
+
+// Function to show signup success popup
+function showSignupSuccess(email) {
+    createParticles('signupParticles', 30);
+    document.getElementById('signupSuccessMessage').textContent = `Account created for ${email}!`;
+    document.getElementById('signupOverlay').classList.add('show');
+    document.getElementById('signupSuccess').classList.add('show');
+    
+    // Save email in the store
+    userEmailStore.saveEmail(email);
+    // Update UI
+    updateUserEmailDisplay();
+}
+
+// Function to close signup popup
+function closeSignupPopup() {
+    document.getElementById('signupOverlay').classList.remove('show');
+    document.getElementById('signupSuccess').classList.remove('show');
+    toggleForms(); // Switch back to login form
+}
+
+// Function to show logout success popup
+function showLogoutSuccess() {
+    createParticles('logoutParticles', 30);
+    document.getElementById('logoutOverlay').classList.add('show');
+    document.getElementById('logoutSuccess').classList.add('show');
+}
+
+// Function to close logout popup
+function closeLogoutPopup() {
+    document.getElementById('logoutOverlay').classList.remove('show');
+    document.getElementById('logoutSuccess').classList.remove('show');
+    // Stay on login page
+}
+
+// Logout function - can be called from any page
+function logout(redirectToLogin = true) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Get authentication token if it exists
+            const token = localStorage.getItem('token');
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+
+            // Add token to headers if available
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
+            // Send logout request to server
+            const response = await fetch(API_URL.logout, {
+                method: 'POST',
+                headers: headers
+            });
+
+            // Clear user data from storage
+            userStorage.clearUser();
+            userEmailStore.clearEmail();
+
+            // Show logout success popup
+            showLogoutSuccess();
+
+            // Redirect to login page after delay if requested
+            if (redirectToLogin) {
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+            }
+
+            resolve(true);
+        } catch (error) {
+            console.error('Logout error:', error);
+
+            // Even if server request fails, clear local data
+            userStorage.clearUser();
+            userEmailStore.clearEmail();
+
+            // Still show logout success to user
+            showLogoutSuccess();
+
+            // Redirect to login page after delay if requested
+            if (redirectToLogin) {
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+            }
+
+            resolve(false);
+        }
+    });
+}
+
+// Function to modify HTML content
+function updatePageContent(selector, content) {
+    const element = document.querySelector(selector);
+    if (element) {
+        element.innerHTML = content;
+    }
+}
+
+// Example usage: updatePageContent('.logo h1', 'NEW LOGO');
+
+// Ensure DOM is fully loaded before attaching event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if user is already stored
+    const user = userStorage.getCurrentUser();
+    if (user) {
+        document.getElementById('login-email').value = user.email;
+        // Optionally auto-fill password too
+        // document.getElementById('login-password').value = user.password;
+    }
+
+    // Update user email display in the UI if available
+    updateUserEmailDisplay();
+
+    // Signup form handling
+    document.getElementById('auth-signup').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const messageElement = document.getElementById('signup-message');
+        messageElement.textContent = 'Processing...';
+        messageElement.style.color = '#ffb347'; // Orange color for processing
+
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        const data = {
+            email,
+            password,
         };
 
-        // Helper function to check if the response is JSON
-        async function handleResponse(response) {
-            const contentType = response.headers.get('content-type');
-            if (contentType && contentType.includes('application/json')) {
-                return await response.json();
-            } else {
-                // Handle non-JSON response
-                const text = await response.text();
-                throw new Error(`Server returned non-JSON response: ${text.substring(0, 100)}...`);
+        try {
+            const response = await fetch(API_URL.register, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            // Try to parse JSON response safely
+            try {
+                const result = await handleResponse(response);
+
+                if (response.ok) {
+                    messageElement.textContent = ''; // Clear text message
+
+                    // Store user credentials
+                    userStorage.saveUser(email, password);
+                    userEmailStore.saveEmail(email);
+
+                    // Show success popup
+                    showSignupSuccess(email);
+                } else {
+                    messageElement.textContent =
+                        result.error || 'Something went wrong!';
+                    messageElement.style.color = 'red';
+                }
+            } catch (parseError) {
+                console.error('Error parsing response:', parseError);
+                messageElement.textContent = 'Server error: Invalid response format';
+                messageElement.style.color = 'red';
             }
+        } catch (error) {
+            console.error('Network error:', error);
+            messageElement.textContent = `Error: ${error.message}`;
+            messageElement.style.color = 'red';
         }
+    });
+    function addAuthHeaderToRequest(options = {}) {
+        const token = localStorage.getItem('token');
+        if (!token) return options;
 
-        // Ensure DOM is fully loaded before attaching event listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            // Signup form handling
-            document.getElementById('auth-signup').addEventListener('submit', async (e) => {
-                e.preventDefault();
+        // Create or update headers object
+        const headers = options.headers || {};
+        headers['Authorization'] = `Bearer ${token}`;
 
-                const messageElement = document.getElementById('signup-message');
-                messageElement.textContent = 'Processing...';
-                messageElement.style.color = '#ffb347'; // Orange color for processing
+        return {
+            ...options,
+            headers
+        };
+    }
+    function makeAuthenticatedRequest(url, options = {}) {
+        const authOptions = addAuthHeaderToRequest(options);
+        return fetch(url, authOptions);
+    }
+    // Login form handling
+    document.getElementById('auth-login').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-                const email = document.getElementById('signup-email').value;
-                const password = document.getElementById('signup-password').value;
-                const data = {
-                    email,
-                    password,
-                };
+        const messageElement = document.getElementById('login-message');
+        messageElement.textContent = 'Processing...';
+        messageElement.style.color = '#ffb347'; // Orange color for processing
 
-                try {
-                    const response = await fetch(API_URL.register, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data),
-                    });
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        const data = {
+            email,
+            password,
+        };
 
-                    // Try to parse JSON response safely
-                    try {
-                        const result = await handleResponse(response);
-
-                        if (response.ok) {
-                            messageElement.textContent = 'SIGNUP SUCCESSFUL!';
-                            messageElement.style.color = 'green';
-                        } else {
-                            messageElement.textContent =
-                                result.error || 'Something went wrong!';
-                            messageElement.style.color = 'red';
-                        }
-                    } catch (parseError) {
-                        console.error('Error parsing response:', parseError);
-                        messageElement.textContent = 'Server error: Invalid response format';
-                        messageElement.style.color = 'red';
-                    }
-                } catch (error) {
-                    console.error('Network error:', error);
-                    messageElement.textContent = `Error: ${error.message}`;
-                    messageElement.style.color = 'red';
-                }
+        try {
+            const response = await fetch(API_URL.login, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
             });
 
-            // Login form handling
-            document.getElementById('auth-login').addEventListener('submit', async (e) => {
-                e.preventDefault();
+            // Try to parse JSON response safely
+            try {
+                const result = await handleResponse(response);
 
-                const messageElement = document.getElementById('login-message');
-                messageElement.textContent = 'Processing...';
-                messageElement.style.color = '#ffb347'; // Orange color for processing
+                if (response.ok) {
+                    messageElement.textContent = ''; // Clear text message
 
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                const data = {
-                    email,
-                    password,
-                };
+                    // Store user credentials
+                    userStorage.saveUser(email, password);
+                    userEmailStore.saveEmail(email);
 
-                try {
-                    const response = await fetch(API_URL.login, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data),
-                    });
-
-                    // Try to parse JSON response safely
-                    try {
-                        const result = await handleResponse(response);
-
-                        if (response.ok) {
-                            messageElement.textContent = 'Login successful! 🥰';
-                            messageElement.style.color = 'green';
-
-                            // Store token if provided
-                            if (result.token) {
-                                localStorage.setItem('token', result.token);
-                                // Optional: Redirect after successful login
-                                // window.location.href = '/dashboard';
-                            }
-                        } else {
-                            messageElement.textContent =
-                                result.error || 'Something went wrong!';
-                            messageElement.style.color = 'red';
-                        }
-                    } catch (parseError) {
-                        console.error('Error parsing response:', parseError);
-                        messageElement.textContent = 'Server error: Invalid response format';
-                        messageElement.style.color = 'red';
+                    // Store token if provided
+                    if (result.token) {
+                        localStorage.setItem('token', result.token);
                     }
-                } catch (error) {
-                    console.error('Network error:', error);
-                    messageElement.textContent = `Error: ${error.message}`;
+
+                    // Show success popup
+                    showLoginSuccess(email);
+                } else {
+                    messageElement.textContent =
+                        result.error || 'Something went wrong!';
                     messageElement.style.color = 'red';
                 }
-            });
-        });
-
-        // Form toggle function
-        function toggleForms() {
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-
-            loginForm.style.transform =
-                loginForm.style.transform === 'rotateY(180deg)'
-                    ? 'rotateY(0deg)'
-                    : 'rotateY(180deg)';
-
-            signupForm.style.transform =
-                signupForm.style.transform === 'rotateY(0deg)'
-                    ? 'rotateY(180deg)'
-                    : 'rotateY(0deg)';
+            } catch (parseError) {
+                console.error('Error parsing response:', parseError);
+                messageElement.textContent = 'Server error: Invalid response format';
+                messageElement.style.color = 'red';
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            messageElement.textContent = `Error: ${error.message}`;
+            messageElement.style.color = 'red';
         }
+    });
+});
 
-        // Glow effect following cursor
-        document.addEventListener('mousemove', (e) => {
-            const glow = document.getElementById('glow');
-            glow.style.opacity = '1';
-            glow.style.left = `${e.clientX - 100}px`;
-            glow.style.top = `${e.clientY - 100}px`;
-        });
+// Form toggle function
+function toggleForms() {
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
 
-        document.addEventListener('mouseleave', () => {
-            document.getElementById('glow').style.opacity = '0';
-        });
+    loginForm.style.transform =
+        loginForm.style.transform === 'rotateY(180deg)'
+            ? 'rotateY(0deg)'
+            : 'rotateY(180deg)';
+
+    signupForm.style.transform =
+        signupForm.style.transform === 'rotateY(0deg)'
+            ? 'rotateY(180deg)'
+            : 'rotateY(0deg)';
+}
+
+// Glow effect following cursor
+document.addEventListener('mousemove', (e) => {
+    const glow = document.getElementById('glow');
+    glow.style.opacity = '1';
+    glow.style.left = `${e.clientX - 100}px`;
+    glow.style.top = `${e.clientY - 100}px`;
+});
+
+document.addEventListener('mouseleave', () => {
+    document.getElementById('glow').style.opacity = '0';
+});
+
+// Global function to update any element's content
+window.updateContent = function (selector, content) {
+    updatePageContent(selector, content);
+};
+
+// Make functions globally available
+window.updateUserEmailDisplay = updateUserEmailDisplay;
+window.logout = logout;
+window.userEmailStore = userEmailStore;
+
+
+    
     </script>
 </body>
 

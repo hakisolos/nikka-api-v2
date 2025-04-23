@@ -184,20 +184,27 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 		});
 
-	// Logout functionality
-	document.querySelector('.logout-btn').addEventListener('click', function () {
-		if (confirm('Are you sure you want to logout?')) {
-			alert('Logout successful!');
-			// In a real application, you would redirect to logout page or perform logout actions
-			// window.location.href = 'logout.php'; // or any logout endpoint
-		}
-	});
-
 	// Initialize profile
 	setUserInitials();
 	populateProfileData();
 });
+function addAuthHeaderToRequest(options = {}) {
+	const token = localStorage.getItem('token');
+	if (!token) return options;
 
+	// Create or update headers object
+	const headers = options.headers || {};
+	headers['Authorization'] = `Bearer ${token}`;
+
+	return {
+		...options,
+		headers,
+	};
+}
+function makeAuthenticatedRequest(url, options = {}) {
+	const authOptions = addAuthHeaderToRequest(options);
+	return fetch(url, authOptions);
+}
 document.addEventListener('DOMContentLoaded', function () {
 	// Test button event listeners
 	const testBtns = document.querySelectorAll('.test-btn');
@@ -330,3 +337,72 @@ document.addEventListener('DOMContentLoaded', function () {
 
 //==========================// VERIFICATION SCRIPT //=====================================================
 // =============== SIGNUP ==================== //
+
+// Add this to your page - it will run when the page loads
+// Add this to your page - it will run when the page loads
+function handleLoginResponse(response) {
+	// Store the token and user info in localStorage
+	localStorage.setItem('nikka_user_token', response.token);
+	localStorage.setItem('nikka_user_email', response.user.email);
+
+	// Redirect to dashboard
+	window.location.href = '/dash';
+}
+function logout() {
+	// Clear localStorage
+	localStorage.removeItem('nikka_user_email');
+
+	// Clear any other user-related items in localStorage
+	localStorage.removeItem('nikka_user_token');
+	localStorage.removeItem('nikka_user_preferences');
+
+	// Clear any sessionStorage
+	sessionStorage.clear();
+
+	// Handle the global store if it exists
+	if (window.userEmailStore) {
+		window.userEmailStore.clearEmail();
+	}
+
+	// Provide feedback to user
+
+	// Redirect to login page
+	window.location.href = '/auth';
+}
+document.addEventListener('DOMContentLoaded', function () {
+	// Get the user's email from storage
+	const email = window.userEmailStore
+		? window.userEmailStore.getEmail()
+		: localStorage.getItem('nikka_user_email');
+
+	// Extract username from email (text before the @)
+	const username = email ? email.split('@')[0] : null;
+
+	// Extract initials (first two letters of username)
+	const initials = username ? username.substring(0, 2).toUpperCase() : null;
+
+	// Find the elements
+	const userEmailElement = document.getElementById('user-email');
+	const userNameElement = document.getElementById('user-nname');
+	const userInitialsElement = document.getElementById('user-initials');
+
+	// Update the email element if it exists and we have an email
+	if (userEmailElement && email) {
+		userEmailElement.textContent = email;
+	}
+
+	// Update the username element if it exists and we have a username
+	if (userNameElement && username) {
+		userNameElement.textContent = username;
+	}
+
+	// Update the user initials element if it exists and we have initials
+	if (userInitialsElement && initials) {
+		userInitialsElement.textContent = initials;
+	}
+
+	// If the global function exists, also call it
+	if (window.updateUserEmailDisplay) {
+		window.updateUserEmailDisplay();
+	}
+});

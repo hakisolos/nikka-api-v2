@@ -28,7 +28,7 @@
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="/profile">Profile</a></li>
-            <li><a href="#changelog">Changelog</a></li>
+            <li><a href="/changelog">Changelog</a></li>
             <li><a href="/ai">AI</a></li>
             <li><a href="/search">Search</a></li>
             <li><a href="/download">Download</a></li>
@@ -43,7 +43,7 @@
         <ul>
             <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="/profile"><i class="fas fa-user"></i>Profile</a></li>
-            <li><a href="#changelog"><i class="fas fa-clipboard-list"></i>Changelog</a></li>
+            <li><a href="/changelog"><i class="fas fa-clipboard-list"></i>Changelog</a></li>
             <li><a href="/ai"><i class="fas fa-robot"></i>AI</a></li>
             <li><a href="/search"><i class="fas fa-search"></i>Search</a></li>
             <li><a href="/download"><i class="fas fa-download"></i>Download</a></li>
@@ -62,7 +62,7 @@
                         <span id="user-initials">JD</span>
                     </div>
                     <div class="profile-info">
-                        <h3 id="username">JohnDoe123</h3>
+                        <h3 id="user-nname">JohnDoe123</h3>
                         <p class="profile-status">Premium User</p>
                     </div>
                 </div>
@@ -71,43 +71,17 @@
                     <div class="detail-group">
                         <label>Email Address</label>
                         <div class="detail-value">
-                            <span id="user-email">johndoe@example.com</span>
+                            <span id="user-email">loading...</span>
                         </div>
                     </div>
     
-                    <div class="detail-group">
-                        <label>API Key</label>
-                        <div class="detail-value api-key-container">
-                            <span id="api-key">NK-API-5f8e9c2d71b84a3e9b7f6d8c0a1e3b5a</span>
-                            <button class="copy-btn" id="copy-api-key">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                    </div>
     
-                    <div class="detail-group">
-                        <label>Account Created</label>
-                        <div class="detail-value">
-                            <span id="account-created">April 15, 2025</span>
-                        </div>
-                    </div>
-    
-                    <div class="detail-group">
-                        <label>Last Login</label>
-                        <div class="detail-value">
-                            <span id="last-login">Today at 09:45 AM</span>
-                        </div>
-                    </div>
-                </div>
     
                 <div class="profile-actions">
-                    <button class="action-btn reset-key-btn">
-                        <i class="fas fa-sync-alt"></i> Reset API Key
-                    </button>
-                    <button class="action-btn logout-btn">
+                    <button onclick="logout()" class="action-btn logout-btn">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
-                </div>
+                </div>  
             </div>
         </div>
     </section>
